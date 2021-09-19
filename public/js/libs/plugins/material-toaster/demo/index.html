@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Material Toast Plugin</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../dist/mdtoast.css">
+	<style type="text/css">
+		html, body {
+			min-height: 100%;
+			background-color: #f5f5f5;
+		}
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+		.stats {
+			margin-bottom: 12px;
+		}
+		.stats a { text-decoration: none; }
+		.stats a + a { margin-left: 8px; }
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<h1>Material-Toast</h1>
+		<div class="stats">
+			<a href="https://www.npmjs.com/package/@dmuy/toast" rel="noreferrer" target="_blank">
+				<img alt="npm" src="https://img.shields.io/npm/dt/@dmuy/toast?style=flat-square">
+			</a>
+			<a href="https://github.com/dmuy/Material-Toast" rel="noreferrer" target="_blank">
+				<img src="https://img.shields.io/github/stars/dmuy/Material-Toast?style=social" alt="stars">
+			</a>
+		</div>
+		<div id="triggers">
+			<button id="trigger1">Basic</button>
+			<button id="trigger2">User Interaction</button>
+			<button id="trigger3">Info Toast</button>
+			<button id="trigger4">Error Toast</button>
+			<button id="trigger5">Warning Toast</button>
+			<button id="trigger6">Success Toast</button>
+		</div>
+		<br>
+		Position:
+		<select id="toast-position">
+			<optgroup label="Top">	
+				<option>top left</option>
+				<option>top center</option>
+				<option>top right</option>
+			</optgroup>
+			<optgroup label="Bottom">	
+				<option>bottom left</option>
+				<option>bottom center</option>
+				<option>bottom right</option>
+			</optgroup>
+		</select>
+	</div>
+	<script type="text/javascript" src="../dist/mdtoast.js"></script>
+	<script type="text/javascript">
+	window.onload = function() {
+		// mdtoast.defaults({ position: 'top center' });
+
+		function getPosition() { return document.querySelector('#toast-position').value }
+
+		var evtHandler = function (e) {
+				if (e.target.id === 'trigger1') {
+					mdtoast('Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam atque reiciendis a hic possimus inventore id fuga non, sit voluptatum quaerat magnam dolorum quos eligendi amet perferendis voluptatibus tenetur animi?', { duration: false, position: getPosition() })
+				} else if (e.target.id === 'trigger2') {
+					mdtoast('Message archived', {
+						interaction: true, actionText: 'UNDO', 
+						position: getPosition(),
+						action: function () {
+							console.log(this);
+							alert('Undo clicked!');
+							this.hide();
+						}
+					})
+				} else if (e.target.id === 'trigger3') {
+					mdtoast.info('An info toast', { position: getPosition() })
+				} else if (e.target.id === 'trigger4') {
+					mdtoast.error('An error toast', { interactionTimeout: 10000, interaction: true, position: getPosition() })
+				} else if (e.target.id === 'trigger5') {
+					mdtoast.warning('A warning toast', { interactionTimeout: 10000, interaction: true, position: getPosition() })
+				} else if (e.target.id === 'trigger6') {
+					mdtoast.success('A success toast', { position: getPosition()})
+				}
+			}
+
+		var triggers = document.querySelectorAll('#trigger1, #trigger2, #trigger3, #trigger4, #trigger5, #trigger6')
+		
+		for (var i = 0; i < triggers.length; i++) {
+			triggers[i].addEventListener('click', evtHandler)
+		}
+	}
+	</script>
+</body>
+</html>

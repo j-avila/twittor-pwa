@@ -122,9 +122,9 @@ postBtn.on('click', function () {
 
 	const data = {
 		mensaje: mensaje,
-		usuario: usuario,
+		user: usuario,
 	}
-
+	// console.log('la data', data)
 	fetch('api', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -146,4 +146,26 @@ const getMesanjes = () => {
 	)
 }
 
+const isOnline = () => {
+	if (navigator.onLine) {
+		console.log('working online')
+		$.mdtoast('working online', {
+			interaction: true,
+			interactionTimeOut: 1000,
+			actionText: 'ok!',
+		})
+	} else {
+		console.log('working offline')
+		$.mdtoast('working offline', {
+			interaction: true,
+			actionText: 'ok',
+			type: 'warning',
+		})
+	}
+}
+
+window.addEventListener('online', isOnline)
+window.addEventListener('offline', isOnline)
+
+isOnline()
 getMesanjes()

@@ -1,4 +1,5 @@
 importScripts('https://cdn.jsdelivr.net/npm/pouchdb@7.0.0/dist/pouchdb.min.js')
+
 importScripts('js/sw-db.js')
 importScripts('js/sw-utils.js')
 
@@ -18,6 +19,8 @@ const APP_SHELL = [
 	'img/avatars/wolverine.jpg',
 	'js/app.js',
 	'js/sw-utils.js',
+	'js/libs/plugins/material-toaster/dist/mdtoast.min.css',
+	'js/libs/plugins/material-toaster/dist/mdtoast.min.js',
 ]
 
 const APP_SHELL_INMUTABLE = [
@@ -77,4 +80,14 @@ self.addEventListener('fetch', e => {
 	}
 
 	e.respondWith(respuesta)
+})
+
+self.addEventListener('sync', e => {
+	console.log('SW: sync')
+
+	if (e.tag === 'nuevo-post') {
+		const respuesta = postingMessage()
+
+		e.waitUntil(respuesta)
+	}
 })

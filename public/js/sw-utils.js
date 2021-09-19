@@ -26,25 +26,26 @@ function actualizaCacheStatico(staticCache, req, APP_SHELL_INMUTABLE) {
 
 // metwork with cache fallback
 const apiMensajes = (cacheName, req) => {
-	console.log(cacheName)
-
 	if (req.clone().method === 'POST') {
 		//  posteo de un nuevo mensaje
-		req
-			.clone()
-			.text()
-			.then(body => {
-				const bodyObj = JSON.parse(body)
-				saveMsg(bodyObj)
-			})
-		// guardado en indexDB
-		return fetch(req)
+		if (self.registration.sync) {
+			return req
+				.clone()
+				.text()
+				.then(body => {
+					const bodyObj = JSON.parse(body)
+					return saveMsg(bodyObj)
+				})
+		} else {
+			return fetch(req)
+		}
 	} else {
-		fetch(req)
-			.then(resp => {
-				if (resp.ok) {
-					actualizaCacheDinamico(cacheName, req, resp.clone())
-					return resp.clone()
+		console.log(cacheName, req.method)
+		return fetch(req)
+			.then(res => {
+				if (res.ok) {
+					actualizaCacheDinamico(cacheName, req, res.clone())
+					return res.clone()
 				} else {
 					return caches.match(req)
 				}
