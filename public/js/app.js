@@ -149,14 +149,14 @@ const getMesanjes = () => {
 const isOnline = () => {
 	if (navigator.onLine) {
 		console.log('working online')
-		$.mdtoast('working online', {
+		mdtoast('working online', {
 			interaction: true,
-			interactionTimeOut: 1000,
+			interactionTimeout: 1000,
 			actionText: 'ok!',
 		})
 	} else {
 		console.log('working offline')
-		$.mdtoast('working offline', {
+		mdtoast('working offline', {
 			interaction: true,
 			actionText: 'ok',
 			type: 'warning',
